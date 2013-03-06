@@ -36,28 +36,50 @@
 	} 
 
 	function getJsonData($stid){
-		global $stats;
 		$table = array();
 		oci_fetch_all($stid, $table,0,-1, OCI_FETCHSTATEMENT_BY_ROW);
-		//WAFFLE_PACK RENGLON DEVICE LOAD_DT WEEK STATE DEVICE_FM PRODUCT CYCLE_TIME CT_STATUS TEST_TYPE LOADDT TESTHOUR MATHHOUR
-		$newTable = array();
+
+		/*
+			 {
+				name: 'OSABW1',
+				color: 'rgba(119, 152, 191, .5)',
+				data: [fecha,tiempoCiclo]
+			}
+		*/
+		$seriesNames = array();
+		$n = array();
+		/* 
+			SERIAL_NUM
+			PASS_FAIL
+			PROCESS_DATE
+			SYSTEM_ID
+			STEP_NAME
+			CYCLE_TIME
+		Esto lo utilizaba para el formato de las fechas pero ya no es necesario
+		*/
 		$i=0;
 		foreach ($table as $key => $value) {
+			if (in_array($value['SYSTEM_ID', $seriesNames)) {
+				$n[i] = array(array_search($value['SYSTEM_ID', $seriesNames));
+			} else {
+				# code...
+			}
+			
 			$newTable[$i] = array(strtotime($value['TESTHOUR'])*1000, (float)$value['CYCLE_TIME']);
 			$i++;
 		}
-		return json_encode($newTable);
+		
+		$n = json_encode($n);
+		file_put_contents('n.json', $n);
+		return $n;
 	}
 
 
 
 	if (true) {
-		// $pack_id = ucfirst($_GET["pack_id"]);
-		$pack_id = "some";
 		$query = file_get_contents("./cicle_time_query.sql");
-		$conn = oci_connect('wp_db', 'wp1', 'PROD_MX');
+		$conn = oci_connect('phase2', 'g4it2day', 'MXOPTIX');
 		$stid = oci_parse($conn, $query);
-		// oci_bind_by_name($stid, ':pack_id', $pack_id, -1); 
 		oci_execute($stid);
 	} else {
 		$pack_id = false;
@@ -164,12 +186,7 @@ $(function () {
 					}
 				}
 			},
-			 series: [
-			 {
-				name: 'OSABW1',
-				color: 'rgba(119, 152, 191, .5)',
-				data: <?php print_r($datos); ?>
-			}]
+			 series: [<?php print_r($series); ?>]
 		});
 	});
 	
