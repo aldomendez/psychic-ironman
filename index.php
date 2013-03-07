@@ -57,16 +57,19 @@
 			CYCLE_TIME
 		Esto lo utilizaba para el formato de las fechas pero ya no es necesario
 		*/
-		$i=0;
+		
 		foreach ($table as $key => $value) {
-			if (in_array($value['SYSTEM_ID', $seriesNames)) {
-				$n[i] = array(array_search($value['SYSTEM_ID', $seriesNames));
-			} else {
-				# code...
+			if ($value['SYSTEM_ID']!=null) {
+				if (!in_array($value['SYSTEM_ID']/*.$value['STEP_NAME']*/, $seriesNames)) {
+					array_push($seriesNames, $value['SYSTEM_ID']/*.$value['STEP_NAME']*/);
+					array_push($n, array('name' => $value['SYSTEM_ID']/*.$value['STEP_NAME']*/, 'data' => array()));
+					$bonderIndex = array_search($value['SYSTEM_ID']/*.$value['STEP_NAME']*/, $seriesNames);
+					array_push($n[$bonderIndex]['data'], array((strtotime($value['PROCESS_DATE'])*1000)-21600000, round($value['CYCLE_TIME']/60,1)));
+				} else {
+					$bonderIndex = array_search($value['SYSTEM_ID']/*.$value['STEP_NAME']*/, $seriesNames);
+					array_push($n[$bonderIndex]['data'], array((strtotime($value['PROCESS_DATE'])*1000)-21600000, round($value['CYCLE_TIME']/60,1)));
+				}		
 			}
-			
-			$newTable[$i] = array(strtotime($value['TESTHOUR'])*1000, (float)$value['CYCLE_TIME']);
-			$i++;
 		}
 		
 		$n = json_encode($n);
@@ -85,7 +88,7 @@
 		$pack_id = false;
 	}
 
-	$datos = getJsonData($stid);
+	$series = getJsonData($stid);
 	//Sets database conection to PROD_MX
 	// $conn = oci_connect('query', 'query', 'rduxu');
 
@@ -95,7 +98,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Utilizacion OSABW1</title>
+		<title>Tiempos de ciclo LR4</title>
 
 		<script type="text/javascript" src="./jquery-1.8.1.min.js"></script>
 		<script type="text/javascript">
@@ -112,7 +115,7 @@ $(function () {
 				text: 'Tiempo de ciclo por pieza'
 			},
 			subtitle: {
-				text: 'OSABW1'
+				text: 'LR4'
 			},
 			xAxis: {
 				type: 'datetime',
@@ -129,22 +132,22 @@ $(function () {
 					text: 'Tiempo de ciclo'
 				},
 				alternateGridColor: null,
-				plotBands: [{ // Light air
-                    from: 0.0,
-                    to: 8.0,
-                    color: 'rgba(68, 170, 213, 0.1)',
+				plotBands: [{
+                    from: 14.0,
+                    to: 20.0,
+                    color: 'rgba(68, 170, 213, 0.2)',
                     label: {
-                        text: 'Buen tiempo de ciclo',
+                        text: 'Tosa Shim',
                         style: {
                             color: '#606060'
                         }
                     }
-                }, { // Light breeze
-                    from: 8.0,
-                    to: 100,
-                    color: 'rgba(0, 0, 0, 0)',
+                }, { 
+                    from: 30.0,
+                    to: 37,
+                    color: 'rgba(0, 125, 0, 0.2)',
                     label: {
-                        text: 'Tiempo de ciclo normal excedido',
+                        text: 'SiLens',
                         style: {
                             color: '#606060'
                         }
@@ -160,8 +163,8 @@ $(function () {
 				layout: 'vertical',
 				align: 'left',
 				verticalAlign: 'top',
-				x: 100,
-				y: 70,
+				x: 0,
+				y: 0,
 				floating: true,
 				backgroundColor: '#FFFFFF',
 				borderWidth: 1
@@ -169,7 +172,7 @@ $(function () {
 			plotOptions: {
 				scatter: {
 					marker: {
-						radius: 5,
+						radius: 4,
 						states: {
 							hover: {
 								enabled: true,
@@ -186,7 +189,7 @@ $(function () {
 					}
 				}
 			},
-			 series: [<?php print_r($series); ?>]
+			 series: <?php print_r($series); ?>
 		});
 	});
 	
