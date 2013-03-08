@@ -59,14 +59,49 @@
 		*/
 		
 		foreach ($table as $key => $value) {
+			$step_name = $value['STEP_NAME'];
+			$system_id = $value['SYSTEM_ID'];
+			if ($step_name == 'LR4 OSA PLC ATTACH') {
+				$step_name = 'SHIM';
+			}
+			if ($step_name == 'ROSA SUBASSEM2 (SUBASSEM1, PD ARRAY & HEADER)') {
+				$step_name = 'SHIM';
+			}
+			if ($step_name == 'LR4 SILICON LENS REMEASURE') {
+				$step_name = 'Remea';
+			}
+			if ($step_name == 'TOSA SUBASSEM1 (SHIM & PLC)') {
+				$step_name = 'Manual';
+			}
+			if ($step_name == 'LR4 GLASS LENS ATTACH') {
+				$step_name = 'ALPS';
+			}
+			if ($step_name == 'TOSA SUBASSEM3 (SUBASSEM2, SI LENS)') {
+				$step_name = 'SiLens';
+			}
+			if ($step_name == 'TOSA SUBASSEM2 (SUBASSEM1, OSA, GLASS RAIL & ALPS LENS)') {
+				$step_name = 'SHIM';
+			}
+			if ($step_name == 'LR4 SILICON LENS ATTACH') {
+				$step_name = 'SiLens';
+			}
+			if ($step_name == 'ROSA SUBASSEM1 (SHIM & PLC)') {
+				$step_name = 'Manual';
+			}
+			if ($step_name == 'ROSA SUBASSEM3 (SUBASSEM2 & ALPS LENS)') {
+				$step_name = 'ALPS';
+			}
+			if ($step_name == 'LR4 SI LENS STANDARD CHECK') {
+				$step_name = 'Standard';
+			}
 			if ($value['SYSTEM_ID']!=null) {
-				if (!in_array($value['SYSTEM_ID']/*.$value['STEP_NAME']*/, $seriesNames)) {
-					array_push($seriesNames, $value['SYSTEM_ID']/*.$value['STEP_NAME']*/);
-					array_push($n, array('name' => $value['SYSTEM_ID']/*.$value['STEP_NAME']*/, 'data' => array()));
-					$bonderIndex = array_search($value['SYSTEM_ID']/*.$value['STEP_NAME']*/, $seriesNames);
+				if (!in_array($value['SYSTEM_ID']." ".$step_name, $seriesNames)) {
+					array_push($seriesNames, $value['SYSTEM_ID']." ".$step_name);
+					array_push($n, array('name' => $value['SYSTEM_ID']." ".$step_name, 'data' => array()));
+					$bonderIndex = array_search($value['SYSTEM_ID']." ".$step_name, $seriesNames);
 					array_push($n[$bonderIndex]['data'], array((strtotime($value['PROCESS_DATE'])*1000)-21600000, round($value['CYCLE_TIME']/60,1)));
 				} else {
-					$bonderIndex = array_search($value['SYSTEM_ID']/*.$value['STEP_NAME']*/, $seriesNames);
+					$bonderIndex = array_search($value['SYSTEM_ID']." ".$step_name, $seriesNames);
 					array_push($n[$bonderIndex]['data'], array((strtotime($value['PROCESS_DATE'])*1000)-21600000, round($value['CYCLE_TIME']/60,1)));
 				}		
 			}
