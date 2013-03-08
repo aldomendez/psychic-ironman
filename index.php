@@ -39,13 +39,6 @@
 		$table = array();
 		oci_fetch_all($stid, $table,0,-1, OCI_FETCHSTATEMENT_BY_ROW);
 
-		/*
-			 {
-				name: 'OSABW1',
-				color: 'rgba(119, 152, 191, .5)',
-				data: [fecha,tiempoCiclo]
-			}
-		*/
 		$seriesNames = array();
 		$n = array();
 		/* 
@@ -57,7 +50,7 @@
 			CYCLE_TIME
 		Esto lo utilizaba para el formato de las fechas pero ya no es necesario
 		*/
-		
+		echo "<pre>";
 		foreach ($table as $key => $value) {
 			$step_name = $value['STEP_NAME'];
 			$system_id = $value['SYSTEM_ID'];
@@ -94,20 +87,38 @@
 			if ($step_name == 'LR4 SI LENS STANDARD CHECK') {
 				$step_name = 'Standard';
 			}
-			if ($value['SYSTEM_ID']!=null) {
-				if (!in_array($value['SYSTEM_ID']." ".$step_name, $seriesNames)) {
-					array_push($seriesNames, $value['SYSTEM_ID']." ".$step_name);
-					array_push($n, array('name' => $value['SYSTEM_ID']." ".$step_name, 'data' => array()));
-					$bonderIndex = array_search($value['SYSTEM_ID']." ".$step_name, $seriesNames);
-					array_push($n[$bonderIndex]['data'], array((strtotime($value['PROCESS_DATE'])*1000)-21600000, round($value['CYCLE_TIME']/60,1)));
+			if ($n[$step_name]==null) {
+				//echo "-> Init seriesNames <br/>";
+				$n[$step_name] = array();
+				$seriesNames[$step_name] = array();
+			}
+			/*
+				 {
+					name: 'OSABW1',
+					color: 'rgba(119, 152, 191, .5)',
+					data: [fecha,tiempoCiclo]
+				}
+			*/
+			//echo "-> " . $step_name . " " . $system_id . "<br/>";
+			if ($system_id!=null) {
+				$is_in_array = in_array($system_id, $seriesNames[$step_name]);
+				// echo "=-===" . !$is_in_array;
+				if ( !$is_in_array ) {
+					// echo "+> Llego a IF " . $step_name . " " . $system_id . "<br/>";
+					array_push($seriesNames[$step_name], $system_id);
+					array_push($n[$step_name], array('name' => $system_id, 'data' => array()));
+					$bonderIndex = array_search($system_id, $seriesNames[$step_name]);
+					array_push($n[$step_name][$bonderIndex]['data'], array((strtotime($value['PROCESS_DATE'])*1000)-21600000, round($value['CYCLE_TIME']/60,1)));
 				} else {
-					$bonderIndex = array_search($value['SYSTEM_ID']." ".$step_name, $seriesNames);
-					array_push($n[$bonderIndex]['data'], array((strtotime($value['PROCESS_DATE'])*1000)-21600000, round($value['CYCLE_TIME']/60,1)));
+					// echo "[]-> Llego a ELSE " . $step_name . " " . $system_id . "<br/>";
+					$bonderIndex = array_search($system_id, $seriesNames[$step_name]);
+					array_push($n[$step_name][$bonderIndex]['data'], array((strtotime($value['PROCESS_DATE'])*1000)-21600000, round($value['CYCLE_TIME']/60,1)));
 				}		
 			}
 		}
 		
-		$n = json_encode($n);
+		echo "</pre>";
+		$n = json_encode($n['SiLens']);
 		file_put_contents('n.json', $n);
 		return $n;
 	}
@@ -224,7 +235,7 @@ $(function () {
 					}
 				}
 			},
-			 series: <?php print_r($series); ?>
+			 series: <?php echo($series); ?>
 		});
 	});
 	
