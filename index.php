@@ -35,7 +35,7 @@
 		return $conn;   
 	} 
 
-	function getJsonData($stid){
+	function getData($stid){
 		$table = array();
 		oci_fetch_all($stid, $table,0,-1, OCI_FETCHSTATEMENT_BY_ROW);
 
@@ -50,7 +50,6 @@
 			CYCLE_TIME
 		Esto lo utilizaba para el formato de las fechas pero ya no es necesario
 		*/
-		echo "<pre>";
 		foreach ($table as $key => $value) {
 			$step_name = $value['STEP_NAME'];
 			$system_id = $value['SYSTEM_ID'];
@@ -116,10 +115,8 @@
 				}		
 			}
 		}
-		
-		echo "</pre>";
-		$n = json_encode($n['SiLens']);
-		file_put_contents('n.json', $n);
+		$na = json_encode($n);
+		file_put_contents('n.json', $na);
 		return $n;
 	}
 
@@ -134,7 +131,7 @@
 		$pack_id = false;
 	}
 
-	$series = getJsonData($stid);
+	$series = getData($stid);
 	//Sets database conection to PROD_MX
 	// $conn = oci_connect('query', 'query', 'rduxu');
 
@@ -145,108 +142,61 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Tiempos de ciclo LR4</title>
-
+		<style type="text/css">
+		body {
+			padding-top: 60px;
+		}
+		</style>
+		<link rel="stylesheet" media="screen" href="../bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" media="screen" href="../bootstrap/css/bootstrap-responsive.css">
 		<script type="text/javascript" src="./jquery-1.8.1.min.js"></script>
 		<script type="text/javascript">
 $(function () {
-	var chart;
-	$(document).ready(function() {
-		chart = new Highcharts.Chart({
-			chart: {
-				renderTo: 'container',
-				type: 'scatter',
-				zoomType: 'xy'
-			},
-			title: {
-				text: 'Tiempo de ciclo por pieza'
-			},
-			subtitle: {
-				text: 'LR4'
-			},
-			xAxis: {
-				type: 'datetime',
-				title: {
-					enabled: true,
-					text: 'Hora de registro'
-				},
-				startOnTick: true,
-				endOnTick: true,
-				showLastLabel: true
-			},
-			yAxis: {
-				title: {
-					text: 'Tiempo de ciclo'
-				},
-				alternateGridColor: null,
-				plotBands: [{
-                    from: 14.0,
-                    to: 20.0,
-                    color: 'rgba(68, 170, 213, 0.2)',
-                    label: {
-                        text: 'Tosa Shim',
-                        style: {
-                            color: '#606060'
-                        }
-                    }
-                }, { 
-                    from: 30.0,
-                    to: 37,
-                    color: 'rgba(0, 125, 0, 0.2)',
-                    label: {
-                        text: 'SiLens',
-                        style: {
-                            color: '#606060'
-                        }
-                    }
-                }]
-			},
-			tooltip: {
-				formatter: function() {
-						return ''+  Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) +' | [' + this.y +' min]';
-				}
-			},
-			legend: {
-				layout: 'vertical',
-				align: 'left',
-				verticalAlign: 'top',
-				x: 0,
-				y: 0,
-				floating: true,
-				backgroundColor: '#FFFFFF',
-				borderWidth: 1
-			},
-			plotOptions: {
-				scatter: {
-					marker: {
-						radius: 4,
-						states: {
-							hover: {
-								enabled: true,
-								lineColor: 'rgb(100,100,100)'
-							}
-						}
-					},
-					states: {
-						hover: {
-							marker: {
-								enabled: false
-							}
-						}
-					}
-				}
-			},
-			 series: <?php echo($series); ?>
-		});
-	});
-	
+	var chart;$(document).ready(function() {chart = new Highcharts.Chart({chart: {renderTo: 'SiLens',type: 'spline',zoomType: 'xy'},title: {text: 'SiLens'},subtitle: {text: 'Tiempo de ciclo'},xAxis: {type: 'datetime',title: {enabled: true,text: 'Hora de registro'},startOnTick: true,endOnTick: true,showLastLabel: true},yAxis: {title: {text: 'Tiempo de ciclo'},alternateGridColor: null,plotBands: [{from: 14.0,to: 20.0,color: 'rgba(68, 170, 213, 0.2)',label: {text: 'Tosa Shim',style: {color: '#606060'}}}, { from: 30.0,to: 37,color: 'rgba(0, 125, 0, 0.2)',label: {text: 'SiLens',style: {color: '#606060'}}}]},tooltip: {formatter: function() {return ''+  Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) +' | [' + this.y +' min]';}},legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 0,y: 0,floating: true,backgroundColor: '#FFFFFF',borderWidth: 1},plotOptions: {scatter: {marker: {radius: 4,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},states: {hover: {marker: {enabled: false}}}}}, series: <?php echo(json_encode($series['SiLens'])); ?>});});
+	var chart;$(document).ready(function() {chart = new Highcharts.Chart({chart: {renderTo: 'SHIM',type: 'spline',zoomType: 'xy'},title: {text: 'SHIM'},subtitle: {text: 'Tiempo de ciclo'},xAxis: {type: 'datetime',title: {enabled: true,text: 'Hora de registro'},startOnTick: true,endOnTick: true,showLastLabel: true},yAxis: {title: {text: 'Tiempo de ciclo'},alternateGridColor: null,plotBands: [{from: 14.0,to: 20.0,color: 'rgba(68, 170, 213, 0.2)',label: {text: 'Tosa Shim',style: {color: '#606060'}}}, { from: 30.0,to: 37,color: 'rgba(0, 125, 0, 0.2)',label: {text: 'SiLens',style: {color: '#606060'}}}]},tooltip: {formatter: function() {return ''+  Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) +' | [' + this.y +' min]';}},legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 0,y: 0,floating: true,backgroundColor: '#FFFFFF',borderWidth: 1},plotOptions: {scatter: {marker: {radius: 4,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},states: {hover: {marker: {enabled: false}}}}}, series: <?php echo(json_encode($series['SHIM'])); ?>});});
+	var chart;$(document).ready(function() {chart = new Highcharts.Chart({chart: {renderTo: 'ALPS',type: 'spline',zoomType: 'xy'},title: {text: 'ALPS'},subtitle: {text: 'Tiempo de ciclo'},xAxis: {type: 'datetime',title: {enabled: true,text: 'Hora de registro'},startOnTick: true,endOnTick: true,showLastLabel: true},yAxis: {title: {text: 'Tiempo de ciclo'},alternateGridColor: null,plotBands: [{from: 14.0,to: 20.0,color: 'rgba(68, 170, 213, 0.2)',label: {text: 'Tosa Shim',style: {color: '#606060'}}}, { from: 30.0,to: 37,color: 'rgba(0, 125, 0, 0.2)',label: {text: 'SiLens',style: {color: '#606060'}}}]},tooltip: {formatter: function() {return ''+  Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) +' | [' + this.y +' min]';}},legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 0,y: 0,floating: true,backgroundColor: '#FFFFFF',borderWidth: 1},plotOptions: {scatter: {marker: {radius: 4,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},states: {hover: {marker: {enabled: false}}}}}, series: <?php echo(json_encode($series['ALPS'])); ?>});});
+	var chart;$(document).ready(function() {chart = new Highcharts.Chart({chart: {renderTo: 'Remea',type: 'spline',zoomType: 'xy'},title: {text: 'Remedicion'},subtitle: {text: 'Tiempo de ciclo'},xAxis: {type: 'datetime',title: {enabled: true,text: 'Hora de registro'},startOnTick: true,endOnTick: true,showLastLabel: true},yAxis: {title: {text: 'Tiempo de ciclo'},alternateGridColor: null,plotBands: [{from: 14.0,to: 20.0,color: 'rgba(68, 170, 213, 0.2)',label: {text: 'Tosa Shim',style: {color: '#606060'}}}, { from: 30.0,to: 37,color: 'rgba(0, 125, 0, 0.2)',label: {text: 'SiLens',style: {color: '#606060'}}}]},tooltip: {formatter: function() {return ''+  Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) +' | [' + this.y +' min]';}},legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 0,y: 0,floating: true,backgroundColor: '#FFFFFF',borderWidth: 1},plotOptions: {scatter: {marker: {radius: 4,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},states: {hover: {marker: {enabled: false}}}}}, series: <?php echo(json_encode($series['Remea'])); ?>});});
 });
 		</script>
 	</head>
 	<body>
+		
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#">CyOptics</a>
+				<div class="nav-collapse collapse">
+					<!-- <p class="navbar-text pull-right">
+						Logged in as <a href="./doLogin.php?logout" class="navbar-link"></a>
+					</p> -->
+					<ul class="nav">
+						<li class="active"><a href="../">Home</a></li>
+						<li><a href="."><i class="icon-refresh icon-white"></i> Actualizar</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span2">
+			<ul class="nav nav-list bs-docs-sidenav affix">
+				<li></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div data-spy="affix" data-offset-top="200" id="SiLens" style="min-width: auto; height: auto; margin: 0 auto"></div>
+	<div data-spy="affix" data-offset-top="200" id="SHIM" style="min-width: auto; height: auto; margin: 0 auto"></div>
+	<div data-spy="affix" data-offset-top="200" id="ALPS" style="min-width: auto; height: auto; margin: 0 auto"></div>
+	<div data-spy="affix" data-offset-top="200" id="Remea" style="min-width: auto; height: auto; margin: 0 auto"></div>
+</div>
 <script src="./js/highcharts.js"></script>
 <script src="./js/modules/exporting.js"></script>
-
-<div id="container" style="min-width: auto; height: auto; margin: 0 auto"></div>
-
 </body>
 </html>
