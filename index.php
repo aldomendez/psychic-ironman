@@ -152,11 +152,342 @@
 		<script type="text/javascript" src="./jquery-1.8.1.min.js"></script>
 		<script type="text/javascript">
 $(function () {
-	var chart;$(document).ready(function() {chart = new Highcharts.Chart({chart: {renderTo: 'SiLens',type: 'spline',zoomType: 'xy'},title: {text: 'SiLens'},subtitle: {text: 'Tiempo de ciclo'},xAxis: {type: 'datetime',title: {enabled: true,text: 'Hora de registro'},startOnTick: true,endOnTick: true,showLastLabel: true},yAxis: {title: {text: 'Tiempo de ciclo'},alternateGridColor: null,plotBands: [{from: 14.0,to: 20.0,color: 'rgba(68, 170, 213, 0.2)',label: {text: 'Tosa Shim',style: {color: '#606060'}}}, { from: 30.0,to: 37,color: 'rgba(0, 125, 0, 0.2)',label: {text: 'SiLens',style: {color: '#606060'}}}]},tooltip: {formatter: function() {return ''+  Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) +' | [' + this.y +' min]';}},legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 0,y: 0,floating: true,backgroundColor: '#FFFFFF',borderWidth: 1},plotOptions: {scatter: {marker: {radius: 4,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},states: {hover: {marker: {enabled: false}}}}}, series: <?php echo(json_encode($series['SiLens'])); ?>});});
-	var chart;$(document).ready(function() {chart = new Highcharts.Chart({chart: {renderTo: 'SHIM',type: 'spline',zoomType: 'xy'},title: {text: 'SHIM'},subtitle: {text: 'Tiempo de ciclo'},xAxis: {type: 'datetime',title: {enabled: true,text: 'Hora de registro'},startOnTick: true,endOnTick: true,showLastLabel: true},yAxis: {title: {text: 'Tiempo de ciclo'},alternateGridColor: null,plotBands: [{from: 14.0,to: 20.0,color: 'rgba(68, 170, 213, 0.2)',label: {text: 'Tosa Shim',style: {color: '#606060'}}}, { from: 30.0,to: 37,color: 'rgba(0, 125, 0, 0.2)',label: {text: 'SiLens',style: {color: '#606060'}}}]},tooltip: {formatter: function() {return ''+  Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) +' | [' + this.y +' min]';}},legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 0,y: 0,floating: true,backgroundColor: '#FFFFFF',borderWidth: 1},plotOptions: {scatter: {marker: {radius: 4,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},states: {hover: {marker: {enabled: false}}}}}, series: <?php echo(json_encode($series['SHIM'])); ?>});});
-	var chart;$(document).ready(function() {chart = new Highcharts.Chart({chart: {renderTo: 'ALPS',type: 'spline',zoomType: 'xy'},title: {text: 'ALPS'},subtitle: {text: 'Tiempo de ciclo'},xAxis: {type: 'datetime',title: {enabled: true,text: 'Hora de registro'},startOnTick: true,endOnTick: true,showLastLabel: true},yAxis: {title: {text: 'Tiempo de ciclo'},alternateGridColor: null,plotBands: [{from: 14.0,to: 20.0,color: 'rgba(68, 170, 213, 0.2)',label: {text: 'Tosa Shim',style: {color: '#606060'}}}, { from: 30.0,to: 37,color: 'rgba(0, 125, 0, 0.2)',label: {text: 'SiLens',style: {color: '#606060'}}}]},tooltip: {formatter: function() {return ''+  Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) +' | [' + this.y +' min]';}},legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 0,y: 0,floating: true,backgroundColor: '#FFFFFF',borderWidth: 1},plotOptions: {scatter: {marker: {radius: 4,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},states: {hover: {marker: {enabled: false}}}}}, series: <?php echo(json_encode($series['ALPS'])); ?>});});
-	var chart;$(document).ready(function() {chart = new Highcharts.Chart({chart: {renderTo: 'Remea',type: 'spline',zoomType: 'xy'},title: {text: 'Remedicion'},subtitle: {text: 'Tiempo de ciclo'},xAxis: {type: 'datetime',title: {enabled: true,text: 'Hora de registro'},startOnTick: true,endOnTick: true,showLastLabel: true},yAxis: {title: {text: 'Tiempo de ciclo'},alternateGridColor: null,plotBands: [{from: 14.0,to: 20.0,color: 'rgba(68, 170, 213, 0.2)',label: {text: 'Tosa Shim',style: {color: '#606060'}}}, { from: 30.0,to: 37,color: 'rgba(0, 125, 0, 0.2)',label: {text: 'SiLens',style: {color: '#606060'}}}]},tooltip: {formatter: function() {return ''+  Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) +' | [' + this.y +' min]';}},legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 0,y: 0,floating: true,backgroundColor: '#FFFFFF',borderWidth: 1},plotOptions: {scatter: {marker: {radius: 4,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},states: {hover: {marker: {enabled: false}}}}}, series: <?php echo(json_encode($series['Remea'])); ?>});});
+	var SiLens;
+$(document).ready(function () {
+    SiLens = new Highcharts.Chart({
+        chart: {
+            renderTo: 'SiLens',
+            type: 'spline',
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'SiLens'
+        },
+        subtitle: {
+            text: 'Tiempo de ciclo'
+        },
+        xAxis: {
+            type: 'datetime',
+            title: {
+                enabled: true,
+                text: 'Hora de registro'
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+        },
+        yAxis: {
+            title: {
+                text: 'Tiempo de ciclo'
+            },
+            alternateGridColor: null,
+            plotBands: [{
+                from: 30.0,
+                to: 37.0,
+                color: 'rgba(68, 170, 50, 0.2)',
+                label: {
+                    text: 'Normal',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            },{
+                from: 50.0,
+                to: 500.0,
+                color: 'rgba(200, 70, 50, 0.2)',
+                label: {
+                    text: 'Excedido',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }]
+        },
+        tooltip: {
+            formatter: function () {
+                return '' + Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) + ' | [' + this.y + ' min]';
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 0,
+            y: 0,
+            floating: true,
+            backgroundColor: '#FFFFFF',
+            borderWidth: 1
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 4,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                }
+            }
+        },
+        series: <?php echo(json_encode($series['SiLens'])); ?>
+    });
 });
+var Shim;
+$(document).ready(function () {
+    Shim = new Highcharts.Chart({
+        chart: {
+            renderTo: 'SHIM',
+            type: 'spline',
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'SHIM'
+        },
+        subtitle: {
+            text: 'Tiempo de ciclo'
+        },
+        xAxis: {
+            type: 'datetime',
+            title: {
+                enabled: true,
+                text: 'Hora de registro'
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+        },
+        yAxis: {
+            title: {
+                text: 'Tiempo de ciclo'
+            },
+            alternateGridColor: null,
+            plotBands: [{
+                from: 9.0,
+                to: 10.0,
+                color: 'rgba(68, 170, 213, 0.2)',
+                label: {
+                    text: 'Tosa',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, {
+                from: 13.9,
+                to: 15,
+                color: 'rgba(0, 125, 0, 0.2)',
+                label: {
+                    text: 'Rosa',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }]
+        },
+        tooltip: {
+            formatter: function () {
+                return '' + Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) + ' | [' + this.y + ' min]';
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 0,
+            y: 0,
+            floating: true,
+            backgroundColor: '#FFFFFF',
+            borderWidth: 1
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 4,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                }
+            }
+        },
+        series: <?php echo(json_encode($series['SHIM'])); ?>
+    });
+});
+var Alps;
+$(document).ready(function () {
+    Alps = new Highcharts.Chart({
+        chart: {
+            renderTo: 'ALPS',
+            type: 'spline',
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'ALPS'
+        },
+        subtitle: {
+            text: 'Tiempo de ciclo'
+        },
+        xAxis: {
+            type: 'datetime',
+            title: {
+                enabled: true,
+                text: 'Hora de registro'
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+        },
+        yAxis: {
+            title: {
+                text: 'Tiempo de ciclo'
+            },
+            alternateGridColor: null,
+            plotBands: [{
+                from:4.0,
+                to: 5.1,
+                color: 'rgba(0, 125, 0, 0.2)',
+                label: {
+                    text: 'Normal',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }]
+        },
+        tooltip: {
+            formatter: function () {
+                return '' + Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) + ' | [' + this.y + ' min]';
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 0,
+            y: 0,
+            floating: true,
+            backgroundColor: '#FFFFFF',
+            borderWidth: 1
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 4,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                }
+            }
+        },
+        series: <?php echo(json_encode($series['ALPS'])); ?>
+    });
+});
+var Remea;
+$(document).ready(function () {
+    Remea = new Highcharts.Chart({
+        chart: {
+            renderTo: 'Remea',
+            type: 'spline',
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Remedicion'
+        },
+        subtitle: {
+            text: 'Tiempo de ciclo'
+        },
+        xAxis: {
+            type: 'datetime',
+            title: {
+                enabled: true,
+                text: 'Hora de registro'
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+        },
+        yAxis: {
+            title: {
+                text: 'Tiempo de ciclo'
+            },
+            alternateGridColor: null,
+            plotBands: [{
+                from: 3.0,
+                to: 4,
+                color: 'rgba(0, 125, 0, 0.2)',
+                label: {
+                    text: 'Normal',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }]
+        },
+        tooltip: {
+            formatter: function () {
+                return '' + Highcharts.dateFormat('%e. %b %Y, %H:%M', this.x) + ' | [' + this.y + ' min]';
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 0,
+            y: 0,
+            floating: true,
+            backgroundColor: '#FFFFFF',
+            borderWidth: 1
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 4,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                }
+            }
+        },
+        series: <?php echo(json_encode($series['Remea'])); ?>
+    });
+});});
 		</script>
 	</head>
 	<body>
@@ -190,10 +521,13 @@ $(function () {
 			</ul>
 		</div>
 	</div>
-	
+	<h4 id='SiLens'>Silens</h4>
 	<div data-spy="affix" data-offset-top="200" id="SiLens" style="min-width: auto; height: auto; margin: 0 auto"></div>
+	<h4>Shim</h4>
 	<div data-spy="affix" data-offset-top="200" id="SHIM" style="min-width: auto; height: auto; margin: 0 auto"></div>
+	<h4>Alps</h4>
 	<div data-spy="affix" data-offset-top="200" id="ALPS" style="min-width: auto; height: auto; margin: 0 auto"></div>
+	<h4>Remedici&oacute;n</h4>
 	<div data-spy="affix" data-offset-top="200" id="Remea" style="min-width: auto; height: auto; margin: 0 auto"></div>
 </div>
 <script src="./js/highcharts.js"></script>
