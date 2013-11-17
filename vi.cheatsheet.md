@@ -1,6 +1,7 @@
 Modes
 =====
 
+http://www.lagmonster.org/docs/vi.html
 Vi has two modes, insertion mode and command mode. The editor begins in command
 mode, where the cursor movement and text deletion occur. Insertion mode begins upon entering an insertion or change command. [ESC], returns the editor to command mode (where you can quit, for example by typing :q!). Most commands execute as soon as you type them except for "colon" commands which execute when you press the return key.
 
@@ -72,4 +73,70 @@ example, `dw` deletes a word. A few other deletes are:
 
 ## Yanking Text
 
+Like deletion, almos all yank commands are performed by typing y followed by a motion. For example, `y$` yanks to the end of the line. Two other yank commands are:
 
+| Command| Effect|
+|--------|-------|
+| yy     | Yank the current line
+| :y     | Tank the current line
+
+## Changing text
+
+The change command is a deletion command that leaves the editor in insert mode. It is performed by typing c followed by a motion. For example `cw` changes a word. A few other change commands are:
+
+| Command| Effect|
+|--------|-------|
+| C      | Change to the end of the line
+| cc     | Change the whole line
+
+## Putting text
+
+| Command| Effect|
+|--------|-------|
+| p      | Put after the position or after the line
+| P      | Put before the position or before the line
+
+## buffers
+
+Named buffers may be specified before any deletion, change, yank or put command. The general prefix has the form `c` where c is a lowercase character. For example, `adw` deletes a word into any buffer a. it may thereafter be put back in text with appropriate `ap`.
+
+## Markers
+
+Named markers may be set on any line in a file. Any lower case letter may be a marker name. Markers may alse be used as limits for ranges.
+
+| Command| Effect|
+|--------|------|
+| mc     | Set marker `c` on this line
+| `c     | Goto beginning of marker `c` line.
+| 'c     | Goto first non-blank character of marker `c` line.
+
+## Searching for strings
+
+| Command| Effect|
+|--------|-------|
+| /string| Search forward for `string`.
+| ?string| Search back for `string`.
+| n      | Search for next instance of `string`
+| N      | Search for previous instance os `string`
+
+## Replace
+
+The search and replace function is accomplished with the `:s` command. It is commonly used in conbination with ranges or the :g command (below)
+| Command| Effect|
+|--------|-------|
+| :s/pattern/string/flags| Replace `pattern` with `string` according to `flags`
+| g      | Flag - Replace all occourences of pattern
+| c      | Flag - Confirm replaces
+| &      | Repeat last :s command
+
+## Regular expressions
+
+| Pattern| Effect|
+|--------|-------|
+| .(dot) | Any single  character except newline
+| *      | Zero or more occurences of any character
+| [...]  | Any single character specified inthe set
+| [^...] | Any single character not especified in the set
+| ^      | Anchor - Beginning of the line
+| $      | Anchor - End of line
+| \<     | 
