@@ -147,8 +147,8 @@
 			padding-top: 60px;
 		}
 		</style>
-		<link rel="stylesheet" media="screen" href="../bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" media="screen" href="../bootstrap/css/bootstrap-responsive.css">
+        <link rel="stylesheet" type="text/css" href="../jsLib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../jsLib/bootstrap/css/bootstrap-responsive.min.css">
 		<script type="text/javascript" src="./jquery-1.8.1.min.js"></script>
 		<script type="text/javascript">
 $(function () {
@@ -157,7 +157,7 @@ $(document).ready(function () {
     SiLens = new Highcharts.Chart({
         chart: {
             renderTo: 'SiLens',
-            type: 'spline',
+            type: 'scatter',
             zoomType: 'xy'
         },
         title: {
@@ -246,7 +246,7 @@ $(document).ready(function () {
     Shim = new Highcharts.Chart({
         chart: {
             renderTo: 'SHIM',
-            type: 'spline',
+            type: 'scatter',
             zoomType: 'xy'
         },
         title: {
@@ -335,7 +335,7 @@ $(document).ready(function () {
     Alps = new Highcharts.Chart({
         chart: {
             renderTo: 'ALPS',
-            type: 'spline',
+            type: 'scatter',
             zoomType: 'xy'
         },
         title: {
@@ -414,7 +414,7 @@ $(document).ready(function () {
     Remea = new Highcharts.Chart({
         chart: {
             renderTo: 'Remea',
-            type: 'spline',
+            type: 'scatter',
             zoomType: 'xy'
         },
         title: {
