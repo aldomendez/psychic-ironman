@@ -4,7 +4,7 @@
 // tzone must be in decimal such as 1hr 45mins would be 1.75, behind 
 // times should be represented as negative decimals 10hours behind 
 // would be -10 
-	ini_set('display_errors','off');
+	ini_set('display_errors','on');
     ini_set('date.timezone', 'America/Mexico_City');
     error_reporting(E_ALL ^ E_NOTICE);
 
@@ -121,17 +121,19 @@
 	}
 
 
-
-	if (true) {
+// Cambiando esta linea
+    // A TRUE, jala datos del servidor
+    // A FALSE, toma los datos que tiene almacanados en el archivo de texto
+	if (false) {
 		$query = file_get_contents("./cicle_time_query.sql");
 		$conn = oci_connect('phase2', 'g4it2day', 'MXOPTIX');
 		$stid = oci_parse($conn, $query);
 		oci_execute($stid);
+        $series = getData($stid);
 	} else {
-		$pack_id = false;
+        $series = json_decode(file_get_contents("n.json"),true);
 	}
 
-	$series = getData($stid);
 	//Sets database conection to PROD_MX
 	// $conn = oci_connect('query', 'query', 'rduxu');
 
@@ -153,13 +155,13 @@
 		<script type="text/javascript">
 $(function () {
 	
-      function timedUpdate () {
-        window.setTimeout(function(){
-            window.location.href = 'http://cymautocert/osaapp/celltime/'
-        },(1000*60*5));
-      }
+      // function timedUpdate () {
+      //   window.setTimeout(function(){
+      //       window.location.href = 'http://cymautocert/osaapp/celltime/'
+      //   },(1000*60*5));
+      // }
 
-      timedUpdate();
+      // timedUpdate();
 
     var SiLens;
 (function () {
