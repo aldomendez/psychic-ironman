@@ -152,8 +152,17 @@
 		<script type="text/javascript" src="./jquery-1.8.1.min.js"></script>
 		<script type="text/javascript">
 $(function () {
-	var SiLens;
-$(document).ready(function () {
+	
+      function timedUpdate () {
+        window.setTimeout(function(){
+            window.location.href = 'http://cymautocert/osaapp/celltime/'
+        },(1000*60*5));
+      }
+
+      timedUpdate();
+
+    var SiLens;
+(function () {
     SiLens = new Highcharts.Chart({
         chart: {
             renderTo: 'SiLens',
@@ -240,9 +249,9 @@ $(document).ready(function () {
         },
         series: <?php echo(json_encode($series['SiLens'])); ?>
     });
-});
+})();
 var Shim;
-$(document).ready(function () {
+(function () {
     Shim = new Highcharts.Chart({
         chart: {
             renderTo: 'SHIM',
@@ -329,9 +338,9 @@ $(document).ready(function () {
         },
         series: <?php echo(json_encode($series['SHIM'])); ?>
     });
-});
+})();
 var Alps;
-$(document).ready(function () {
+(function () {
     Alps = new Highcharts.Chart({
         chart: {
             renderTo: 'ALPS',
@@ -408,9 +417,9 @@ $(document).ready(function () {
         },
         series: <?php echo(json_encode($series['ALPS'])); ?>
     });
-});
+})();
 var Remea;
-$(document).ready(function () {
+(function () {
     Remea = new Highcharts.Chart({
         chart: {
             renderTo: 'Remea',
@@ -487,7 +496,8 @@ $(document).ready(function () {
         },
         series: <?php echo(json_encode($series['Remea'])); ?>
     });
-});});
+})();
+});
 		</script>
 	</head>
 	<body>
