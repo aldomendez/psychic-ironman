@@ -124,7 +124,7 @@
 // Cambiando esta linea
     // A TRUE, jala datos del servidor
     // A FALSE, toma los datos que tiene almacanados en el archivo de texto
-	if (false) {
+	if (true) {
 		$query = file_get_contents("./cicle_time_query.sql");
 		$conn = oci_connect('phase2', 'g4it2day', 'MXOPTIX');
 		$stid = oci_parse($conn, $query);
@@ -223,8 +223,8 @@ $(function () {
             layout: 'vertical',
             align: 'left',
             verticalAlign: 'top',
-            x: 0,
-            y: 0,
+            // x: 0,
+            // y: 0,
             floating: true,
             backgroundColor: '#FFFFFF',
             borderWidth: 1
